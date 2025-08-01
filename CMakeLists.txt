@@ -25,6 +25,8 @@ foreach(SHADER_FILE ${SHADER_FILES})
         set(SHADER_STAGE "vert")
     elseif(SHADER_NAME STREQUAL "fragment")
         set(SHADER_STAGE "frag")
+    elseif(SHADER_NAME STREQUAL "fragment_lines")
+        set(SHADER_STAGE "frag")
     else()
         set(SHADER_STAGE "vert") # По умолчанию
     endif()

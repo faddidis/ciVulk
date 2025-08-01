@@ -30,6 +30,56 @@ void generateSphereMesh(std::vector<Vertex>& vertices, std::vector<uint32_t>& in
         }
     }
     
+    // Генерируем индексы для треугольников
+    std::vector<uint32_t> triangleIndices;
+    
+    for (int lat = 0; lat < latBands; lat++) {
+        for (int lon = 0; lon < lonBands; lon++) {
+            uint32_t current = lat * (lonBands + 1) + lon;
+            uint32_t next = lat * (lonBands + 1) + (lon + 1);
+            uint32_t currentNextLat = (lat + 1) * (lonBands + 1) + lon;
+            uint32_t nextNextLat = (lat + 1) * (lonBands + 1) + (lon + 1);
+            
+            // Первый треугольник
+            triangleIndices.push_back(current);
+            triangleIndices.push_back(next);
+            triangleIndices.push_back(currentNextLat);
+            
+            // Второй треугольник
+            triangleIndices.push_back(next);
+            triangleIndices.push_back(nextNextLat);
+            triangleIndices.push_back(currentNextLat);
+        }
+    }
+    
+    indices = triangleIndices;
+}
+
+void generateSphereWireframe(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, float radius, int latBands, int lonBands) {
+    vertices.clear();
+    indices.clear();
+    
+    // Генерируем вершины сферы
+    for (int lat = 0; lat <= latBands; lat++) {
+        float theta = lat * M_PI / latBands;
+        float sinTheta = sin(theta);
+        float cosTheta = cos(theta);
+        
+        for (int lon = 0; lon <= lonBands; lon++) {
+            float phi = lon * 2.0f * M_PI / lonBands;
+            float sinPhi = sin(phi);
+            float cosPhi = cos(phi);
+            
+            float x = cosPhi * sinTheta;
+            float y = cosTheta;
+            float z = sinPhi * sinTheta;
+            
+            Vertex v;
+            v.pos = glm::vec3(x * radius, y * radius, z * radius);
+            vertices.push_back(v);
+        }
+    }
+    
     // Генерируем индексы для линий каркаса (меридианы и параллели)
     std::vector<uint32_t> lineIndices;
     

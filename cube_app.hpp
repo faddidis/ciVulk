@@ -36,10 +36,12 @@ private:
     void createRenderPass();
     void createDescriptorSetLayout();
     void createGraphicsPipeline();
+    void createWireframePipeline();
     void createFramebuffers();
     void createCommandPool();
     void createVertexBuffer();
     void createIndexBuffer();
+    void createWireframeBuffers();
     void createUniformBuffers();
     void createDescriptorPool();
     void createDescriptorSets();
@@ -74,6 +76,7 @@ private:
     VkDescriptorSetLayout descriptorSetLayout;
     VkPipelineLayout pipelineLayout;
     VkPipeline graphicsPipeline;
+    VkPipeline wireframePipeline;
     std::vector<VkFramebuffer> swapChainFramebuffers;
     VkCommandPool commandPool;
     std::vector<VkCommandBuffer> commandBuffers;
@@ -108,6 +111,14 @@ private:
     // Данные сферы
     std::vector<Vertex> sphereVertices;
     std::vector<uint32_t> sphereIndices;
+    
+    // Данные wireframe сферы
+    std::vector<Vertex> sphereWireframeVertices;
+    std::vector<uint32_t> sphereWireframeIndices;
+    VkBuffer sphereWireframeVertexBuffer;
+    VkDeviceMemory sphereWireframeVertexBufferMemory;
+    VkBuffer sphereWireframeIndexBuffer;
+    VkDeviceMemory sphereWireframeIndexBufferMemory;
     
     Camera camera;
     
